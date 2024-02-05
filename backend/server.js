@@ -22,7 +22,15 @@ mongoose.connect(process.env.MONGO_URl).then(()=>{
 app.use("/api/user",userRouter)
 app.use("/api/user",userSignup)
 
-
+app.use((err,req,res,next)=>{
+    const statuscode=err.statuscode ||500;
+    const message=err.message || "Internal server error"
+    res.status(statuscode).json({
+       success:false,
+        statuscode,
+        message
+    })
+})
 
 
 
